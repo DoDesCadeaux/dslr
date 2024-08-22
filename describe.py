@@ -3,6 +3,7 @@ from math import sqrt
 import numpy as np
 import pandas as pd
 
+
 def count(data):
     columns_lengths = []
     for i in range(0, data.shape[1]):
@@ -11,6 +12,7 @@ def count(data):
 
     return columns_lengths
 
+
 def mean(data):
     columns_mean = []
     for i in range(0, data.shape[1]):
@@ -18,6 +20,7 @@ def mean(data):
         columns_mean.append(round(mean, 6))
 
     return columns_mean
+
 
 def std(data):
     columns_std = []
@@ -42,6 +45,7 @@ def calculate_statistics(data):
     real_df = pd.DataFrame(df.T)
     real_df.rename(columns={i: name for i, name in enumerate(data.columns)}, inplace=True)
     return real_df
+
 
 if __name__ == "__main__":
     path = 'datasets/dataset_train.csv'
