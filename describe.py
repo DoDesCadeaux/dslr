@@ -78,11 +78,11 @@ def quantile(data, q):
         g = index - j
 
         if j < n - 1:
-            q1 = (1 - g) * col.iloc[j] + g * col.iloc[j + 1]
+            q = (1 - g) * col.iloc[j] + g * col.iloc[j + 1]
         else:
-            q1 = col.iloc[j]
+            q = col.iloc[j]
 
-        columns_first_quart.append(round(q1, 6))
+        columns_first_quart.append(round(q, 6))
 
     return columns_first_quart
 
@@ -121,3 +121,4 @@ if __name__ == "__main__":
 
     stats_df = calculate_statistics(X_train)
     print(stats_df)
+    print(X_train.describe())
