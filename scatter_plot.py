@@ -13,8 +13,6 @@ if __name__ == '__main__':
         print(e)
         exit(1)
 
-    print("-"*20)
-
     try:
         course_1 = argv[2]
         course_2 = argv[3]
