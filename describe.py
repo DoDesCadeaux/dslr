@@ -121,4 +121,3 @@ if __name__ == "__main__":
 
     stats_df = calculate_statistics(X_train)
     print(stats_df)
-    print(X_train.describe())
