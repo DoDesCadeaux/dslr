@@ -6,6 +6,7 @@ import pandas as pd
 
 def count(data):
     columns_lengths = []
+
     for i in range(0, data.shape[1]):
         length = float(len(data.iloc[:, i].dropna()))
         columns_lengths.append(round(length, 6))
@@ -15,6 +16,7 @@ def count(data):
 
 def mean(data):
     columns_mean = []
+
     for i in range(0, data.shape[1]):
         mean = float(np.sum(data.iloc[:, i]) / len(data.iloc[:, i].dropna()))
         columns_mean.append(round(mean, 6))
@@ -24,6 +26,7 @@ def mean(data):
 
 def std(data):
     columns_std = []
+
     for i in range(0, data.shape[1]):
         col = data.iloc[:, i].dropna()
         mean = float(np.sum(data.iloc[:, i]) / len(data.iloc[:, i].dropna()))
@@ -34,15 +37,71 @@ def std(data):
     return columns_std
 
 
+def minimum(data):
+    columns_min = []
+
+    for i in range(0, data.shape[1]):
+        smallest = np.inf
+
+        for j in data.iloc[:, i]:
+            if j < smallest:
+                smallest = j
+        columns_min.append(smallest)
+
+    return columns_min
+
+
+def maximum(data):
+    columns_max = []
+
+    for i in range(0, data.shape[1]):
+        biggest = -np.inf
+
+        for j in data.iloc[:, i]:
+            if j > biggest:
+                biggest = j
+        columns_max.append(biggest)
+
+    return columns_max
+
+
+def quantile(data, q):
+    columns_first_quart = []
+
+    for i in range(0, data.shape[1]):
+        col = data.iloc[:, i].dropna().sort_values()
+        n = len(col)
+
+        q
+        index = (n - 1) * q
+
+        j = int(index)
+        g = index - j
+
+        if j < n - 1:
+            q1 = (1 - g) * col.iloc[j] + g * col.iloc[j + 1]
+        else:
+            q1 = col.iloc[j]
+
+        columns_first_quart.append(round(q1, 6))
+
+    return columns_first_quart
+
+
 def calculate_statistics(data):
     stats = {
         'count': count(data),
         'mean': mean(data),
-        'std': std(data)
+        'std': std(data),
+        'min': minimum(data),
+        '25%': quantile(data, 0.25),
+        '50%': quantile(data, 0.50),
+        '75%': quantile(data, 0.75),
+        'max': maximum(data)
     }
 
     df = pd.DataFrame(stats)
-    real_df = pd.DataFrame(df.T)
+    real_df = df.T
     real_df.rename(columns={i: name for i, name in enumerate(data.columns)}, inplace=True)
     return real_df
 
