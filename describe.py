@@ -72,7 +72,6 @@ def quantile(data, q):
         col = data.iloc[:, i].dropna().sort_values()
         n = len(col)
 
-        q
         index = (n - 1) * q
 
         j = int(index)
