@@ -106,12 +106,18 @@ def calculate_statistics(data):
 
 
 if __name__ == "__main__":
-    path = 'datasets/dataset_train.csv'
-    data = pd.read_csv(path)
+    folder = 'datasets/'
+    try:
+        print(argv[0])
+        path = folder + argv[1]
+        print(path)
+        data = pd.read_csv(path)
+
+    except IndexError as e:
+        print(e)
+        exit(1)
 
     X_train = data.select_dtypes(include='number')
 
     stats_df = calculate_statistics(X_train)
     print(stats_df)
-    print("\n")
-    print(X_train.describe())
