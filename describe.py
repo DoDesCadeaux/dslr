@@ -113,7 +113,7 @@ if __name__ == "__main__":
         print(path)
         data = pd.read_csv(path)
 
-    except IndexError as e:
+    except (IndexError, FileNotFoundError) as e:
         print(e)
         exit(1)
 
