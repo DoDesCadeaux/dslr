@@ -35,7 +35,7 @@ def gradients(A, X, y):
     return dW
 
 
-def artificial_neuron(X, y, learning_rate=0.01, n_iter=30000):
+def artificial_neuron(X, y, learning_rate=0.05, n_iter=1500):
     m, n = X.shape
     n_classes = y.shape[1]
 
