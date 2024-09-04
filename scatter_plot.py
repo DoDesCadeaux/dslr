@@ -11,6 +11,7 @@ if __name__ == '__main__':
         data = pd.read_csv(path)
     except (IndexError, FileNotFoundError) as e:
         print(e)
+        print('Usage: python3 scatter_plot.py <dataset.csv> <course_1> <course_2>')
         exit(1)
 
     try:
@@ -18,6 +19,7 @@ if __name__ == '__main__':
         course_2 = argv[3]
     except IndexError as e:
         print(e)
+        print('Usage: python3 scatter_plot.py <dataset.csv> <course_1> <course_2>')
         exit(2)
 
     try:
