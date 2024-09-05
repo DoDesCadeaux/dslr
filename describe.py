@@ -66,11 +66,15 @@ def maximum(data):
 
 
 def quantile(data, q):
-    columns_first_quart = []
+    columns_quantile = []
 
     for i in range(0, data.shape[1]):
         col = data.iloc[:, i].dropna().sort_values()
         n = len(col)
+
+        if n == 0:
+            columns_quantile.append(np.nan)
+            continue
 
         index = (n - 1) * q
 
@@ -78,13 +82,13 @@ def quantile(data, q):
         g = index - j
 
         if j < n - 1:
-            q = (1 - g) * col.iloc[j] + g * col.iloc[j + 1]
+            q_value = (1 - g) * col.iloc[j] + g * col.iloc[j + 1]
         else:
-            q = col.iloc[j]
+            q_value = col.iloc[j]
 
-        columns_first_quart.append(round(q, 6))
+        columns_quantile.append(round(q_value, 6))
 
-    return columns_first_quart
+    return columns_quantile
 
 
 def calculate_statistics(data):
@@ -121,3 +125,4 @@ if __name__ == "__main__":
 
     stats_df = calculate_statistics(X_train)
     print(stats_df)
+    print(X_train.describe())
