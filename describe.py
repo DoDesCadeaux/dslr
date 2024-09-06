@@ -18,8 +18,12 @@ def mean(data):
     columns_mean = []
 
     for i in range(0, data.shape[1]):
-        mean = float(np.sum(data.iloc[:, i]) / len(data.iloc[:, i].dropna()))
-        columns_mean.append(round(mean, 6))
+        col = data.iloc[:, i].dropna()
+        if len(col) == 0:
+            columns_mean.append(np.nan)
+        else:
+            mean = float(np.sum(col) / len(col))
+            columns_mean.append(round(mean, 6))
 
     return columns_mean
 
@@ -29,10 +33,13 @@ def std(data):
 
     for i in range(0, data.shape[1]):
         col = data.iloc[:, i].dropna()
-        mean = float(np.sum(data.iloc[:, i]) / len(data.iloc[:, i].dropna()))
-        variance = np.sum((col - mean) ** 2) / (len(col) - 1)
-        std = sqrt(variance)
-        columns_std.append(round(std, 6))
+        if len(col) == 0:
+            columns_std.append(np.nan)
+        else:
+            mean = float(np.sum(col) / len(col))
+            variance = np.sum((col - mean) ** 2) / (len(col) - 1)
+            std = sqrt(variance)
+            columns_std.append(round(std, 6))
 
     return columns_std
 
@@ -73,16 +80,19 @@ def quantile(data, q):
         n = len(col)
 
         index = (n - 1) * q
-
         j = int(index)
         g = index - j
 
-        if j < n - 1:
-            q = (1 - g) * col.iloc[j] + g * col.iloc[j + 1]
-        else:
-            q = col.iloc[j]
+        if n == 0:
+            columns_first_quart.append(np.nan)
+            continue
 
-        columns_first_quart.append(round(q, 6))
+        if j < n - 1:
+            q_value = (1 - g) * col.iloc[j] + g * col.iloc[j + 1]
+        else:
+            q_value = col.iloc[j]
+
+        columns_first_quart.append(round(q_value, 6))
 
     return columns_first_quart
 
@@ -117,7 +127,8 @@ if __name__ == "__main__":
         print(e)
         exit(1)
 
-    X_train = data.select_dtypes(include='number')
+    X_train = data.select_dtypes(include='number').dropna(axis=1, how='all')
 
     stats_df = calculate_statistics(X_train)
     print(stats_df)
+    print(X_train.describe())
