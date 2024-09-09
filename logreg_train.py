@@ -12,3 +12,4 @@ if __name__ == '__main__':
     except (IndexError, FileNotFoundError) as e:
         print(e)
         exit(1)
+
